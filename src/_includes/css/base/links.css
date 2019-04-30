@@ -1,0 +1,8 @@
+a, a:visited {
+  @apply text-red-700;
+  @apply underline;
+}
+a:hover, a:focus, a:active {
+  @apply text-red-600;
+  @apply no-underline;
+}

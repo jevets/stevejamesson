@@ -1,0 +1,24 @@
+.site-main {
+  @apply leading-normal;
+
+  h1, h2, h3, h4, h5, h6,
+  p, ul, ol, dl,
+  blockquote, pre,
+  details {
+    @apply my-4;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply leading-none;
+  }
+  h1 {
+    @apply text-4xl font-black;
+  }
+  h2 {
+    @apply text-2xl font-black;
+  }
+  h3 {
+    @apply text-lg font-black;
+    @apply my-6;
+  }
+}

@@ -1,0 +1,6 @@
+.post-header {
+  @apply mb-8;
+}
+.post-pubdate {
+  @apply text-sm text-gray-600;
+}

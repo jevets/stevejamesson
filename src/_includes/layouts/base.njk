@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>
+    {%- block title -%}
+      {{ title if title else site.title }}
+    {%- endblock -%}
+  </title>
+  {% block head %}
+    <link rel="stylesheet" href="/styles.css">
+  {% endblock %}
+</head>
+<body>
+  {% block header %}
+    <header class="site-header">
+      <div class="container">
+        <a href="/">Home</a>
+      </div>
+    </header>
+  {% endblock %}
+
+  <main class="site-main">
+    {% block main %}
+      {{ content | safe }}
+    {% endblock %}
+  </main>
+
+  {% block footer %}
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          <small>&copy;{{ site.copyrightDate }} {{ site.author }}</small>
+        </p>
+      </div>
+    </footer>
+  {% endblock %}
+</body>
+</html>
