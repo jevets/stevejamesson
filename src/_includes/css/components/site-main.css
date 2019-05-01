@@ -23,7 +23,9 @@
 
   ul, ol {
     @apply ml-4;
-    @apply leading-loose;
+  }
+  li {
+    @apply my-4;
   }
   ul {
     @apply list-disc;

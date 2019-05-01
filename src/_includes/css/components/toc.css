@@ -1,0 +1,17 @@
+.toc-container {
+  @apply text-sm;
+  @apply my-4;
+  @apply bg-gray-100;
+  @apply p-4;
+}
+.toc-heading {
+  @apply uppercase tracking-wider;
+  @apply text-gray-500 font-semibold;
+}
+.toc {
+  @apply leading-loose;
+  @apply mb-0;
+  li {
+    @apply my-0;
+  }
+}

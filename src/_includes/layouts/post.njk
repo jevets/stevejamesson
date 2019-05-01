@@ -8,7 +8,19 @@
       <time class="post-pubdate" datetime="{{ page.date | machineDate }}">
         {{ page.date | readableDate }}
       <time>
+      {% if excerpt %}
+        <div class="post-excerpt">{{ excerpt }}</div>
+      {% endif %}
     </header>
+
+    {% set toc %}{{ content | toc | safe }}{% endset %}
+    {% if toc %}
+      <aside class="toc-container">
+        <div class="toc-heading">Table of Contents</div>
+        {{ toc | safe }}
+      </aside>
+    {% endif %}
+
     <div class="content post-content">
       {{ content | safe }}
     </div>

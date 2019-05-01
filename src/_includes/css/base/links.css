@@ -1,8 +1,8 @@
 a, a:visited {
-  @apply text-red-700;
+  @apply text-teal-600;
   @apply underline;
 }
 a:hover, a:focus, a:active {
-  @apply text-red-600;
+  @apply text-teal-500;
   @apply no-underline;
 }
