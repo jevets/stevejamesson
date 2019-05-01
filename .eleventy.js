@@ -1,3 +1,4 @@
+const url = require('url')
 const { DateTime } = require('luxon')
 const pluginSyntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight')
 const pluginTOCNested = require('eleventy-plugin-nesting-toc')
@@ -5,6 +6,7 @@ const markdownIt = require('markdown-it')
 const markdownItAnchor = require('markdown-it-anchor')
 const CleanCSS = require('clean-css')
 const PurgeCSS = require('purgecss')
+const htmlmin = require('html-minifier')
 
 module.exports = config => {
   config.dir = {
@@ -18,6 +20,9 @@ module.exports = config => {
   })
   config.addFilter('machineDate', dt => {
     return DateTime.fromJSDate(dt, {zone: 'utc'}).toISODate()
+  })
+  config.addFilter('productionUrl', path => {
+    return new URL(path, 'https://www.stevejamesson.com/')
   })
 
   // Plugins
@@ -33,6 +38,19 @@ module.exports = config => {
       typographer: true,
     }).use(markdownItAnchor, {})
   )
+
+  // Minify HTML
+  config.addTransform('htmlmin', (content, outputPath) => {
+    if (outputPath.endsWith('.html')) {
+      content = htmlmin.minify(content, {
+        useShortDoctype: true,
+        removeComments: true,
+        collapseWhitespace: true
+      })
+    }
+
+    return content
+  })
 
   // Purge and minify CSS files
   config.addTransform('cleancss', async (content, outputPath) => {

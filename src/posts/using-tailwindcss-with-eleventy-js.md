@@ -2,7 +2,7 @@
 title: Using TailwindCSS with EleventyJS
 date: 2019-05-01
 excerpt: |
-  Use TailwindCSS in Eleventy with file-watching and automatic browser reload, PostCSS plugins, and PurgeCSS and Minify.
+  Use TailwindCSS in Eleventy with built-in file watch, automatic browser reload, PostCSS plugins, and PurgeCSS and Minififcation.
 ---
 
 The idea is simple: Use an `.11ty.js` template file to do the work of processing TailwindCSS and PostCSS, then keep your CSS files in Eleventy's `_includes` directory to take advantage of auto-reload/rebuild.

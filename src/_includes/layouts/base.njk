@@ -4,14 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
   <title>
     {%- block title -%}
       {{ title if title else site.title }}
     {%- endblock -%}
   </title>
-  {% block head %}
-    <link rel="stylesheet" href="/styles.css">
-  {% endblock %}
+
+  <link rel="stylesheet" href="/styles.css">
+
+  <meta property="og:site_name" content="{{ site.title }}">
+  <meta property="og:url" content="{{ page.url | productionUrl }}">
+  <meta property="og:locale" content="en_US">
+  <meta property="profile:first_name" content="Steve">
+  <meta property="profile:last_name" content="Jamesson">
+  {% block og %}{% endblock %}
+
+  {% block meta %}{% endblock %}
 </head>
 <body>
   {% block header %}
@@ -20,6 +29,8 @@
         <a href="/">Home</a>
         &nbsp;
         <a href="/posts/">Posts</a>
+        &nbsp;
+        <a href="/now/">Now</a>
       </div>
     </header>
   {% endblock %}
