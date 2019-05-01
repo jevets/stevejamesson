@@ -1,0 +1,8 @@
+.site-nav {
+  .nav-item {
+    @apply mr-4;
+  }
+  .nav-item-active {
+    @apply no-underline;
+  }
+}

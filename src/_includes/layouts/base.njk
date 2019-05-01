@@ -25,15 +25,7 @@
 <body>
   {% block header %}
     <header class="site-header">
-      <div class="container">
-        <nav class="menu">
-          <a href="/">Home</a>
-          &nbsp;
-          <a href="/posts/">Posts</a>
-          &nbsp;
-          <a href="/now/">Now</a>
-        </nav>
-      </div>
+      {% include "layouts/_site-nav.njk" %}
     </header>
   {% endblock %}
 

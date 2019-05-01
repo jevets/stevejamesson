@@ -8,7 +8,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply my-6;
+    @apply my-8;
     @apply leading-none;
   }
   h1 {
@@ -32,5 +32,24 @@
   }
   ol {
     @apply list-decimal;
+  }
+
+  dt {
+    @apply font-bold;
+  }
+  dl dt:first-child {
+    @apply mt-0;
+  }
+  dt > dd:first {
+    @apply font-serif;
+  }
+  dd {
+    @apply my-4 ml-8;
+  }
+
+  blockquote {
+    @apply leading-loose;
+    @apply font-serif text-lg text-gray-700;
+    @apply py-2 px-4 border border-l-8;
   }
 }

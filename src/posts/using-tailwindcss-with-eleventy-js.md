@@ -5,9 +5,27 @@ excerpt: |
   Use TailwindCSS in Eleventy with built-in file watch, automatic browser reload, PostCSS plugins, and PurgeCSS and Minififcation.
 ---
 
-The idea is simple: Use an `.11ty.js` template file to do the work of processing TailwindCSS and PostCSS, then keep your CSS files in Eleventy's `_includes` directory to take advantage of auto-reload/rebuild.
+Here's the overall idea:
 
-## Install Dependencies
+Use an `.11ty.js` template file to do the work of processing TailwindCSS and PostCSS, then keep your CSS files in Eleventy's `_includes` directory to take advantage of auto-reload/rebuild. Let [Eleventy Transforms](https://www.11ty.io/docs/config/#transforms) handle PurgeCSS to ensure PurgeCSS compares against resulting compiled HTML. Then minify the CSS.
+
+## Dependencies & General Setup
+
+Note I'm using a `src` folder for my Eleventy input root and a `dist` folder for the fintal output. Defaults are `--input=. --output=_site`. I set this up in the config file.
+
+```js
+// .eleventy.js
+module.exports = config => {
+  config.dir = {
+    input: 'src',
+    output: 'dist',
+  }
+  // other stuff will go here
+  return config
+}
+```
+
+Dependencies:
 
 <small>
 
@@ -79,7 +97,7 @@ a:hover, a:focus, a:active {
 }
 ```
 
-## Set up a master styles file
+## Setup a Master Stylesheet Template
 
 This file will become the output file that we'll reference from the base layout.
 
@@ -136,15 +154,12 @@ The template itself is pretty self-explanatory. But a few quick notes:
 
 You could handle the purge and minification directly in `styles.11ty.js` via PostCSS plugins, but I prefer to use an [Eleventy Transform](https://www.11ty.io/docs/config/#transforms) instead, for a couple reasons:
 
-**Future proof**
+Future proof
+: If I ever change from PostCSS/Tailwind to something else in the future, my CSS files will still be purged and minified when the site's built, regardless of my CSS pre-processing stack.
 
-If I ever change from PostCSS/Tailwind to something else in the future, my CSS files will still be purged and minified when the site's built, regardless of my CSS pre-processing stack.
-
-**Generated markup**
-
-I'm using an [Eleventy plugin for code syntax highlighting](https://github.com/11ty/eleventy-plugin-syntaxhighlight), and it generates a bunch of markup during Eleventy's build step. This compiled HTML isn't necessarily available while Eleventy is processing `styles.11ty.js`.
-
-I need PurgeCSS to see the resulting HTML output (`./dist/**/*.html`) after Eleventy has compiled its files — not the template source markup. If you were to instruct PurgeCSS to only look in the source templates (`src/**/*.njk`), PurgeCSS would remove the CSS classes that the syntax highlighting plugin generates.
+Generated markup
+: I'm using an [Eleventy plugin for code syntax highlighting](https://github.com/11ty/eleventy-plugin-syntaxhighlight), and it generates a bunch of markup during Eleventy's build step. This compiled HTML isn't necessarily available while Eleventy is processing `styles.11ty.js`.
+: I need PurgeCSS to see the resulting HTML output (`./dist/**/*.html`) after Eleventy has compiled its files — not the template source markup. If you were to instruct PurgeCSS to only look in the source templates (`src/**/*.njk`), PurgeCSS would remove the CSS classes that the syntax highlighting plugin generates.
 
 Using a Transform for purging (and then minification) is the perfect solution, since Transforms happen later on in Eleventy's build chain. *I assume this is true; it seems to be true so far.*
 
@@ -175,7 +190,7 @@ module.exports => config => {
 
 *Minification piece grabbed from [this 11ty.io quicktip on Inline Minified CSS](https://www.11ty.io/docs/quicktips/inline-css/).*
 
-## Conclusion
+## Wrap
 
 Purging and minification sure go a long way.
 
@@ -185,6 +200,8 @@ I'm also purging and minifying CSS during development, instead of running these 
 
 - I don't need source maps
 - I don't need readable CSS
-- I'd rather keep it as simple as possible until I need to add complexity
+- I'd rather keep everything as simple as possible until I need to add complexity, per this famous and famously overused Einstein quote:
+
+> Everything should be made as simple as possible, but not simpler.
 
 If and when I do need to run these only in production, I'd simply use some environment variables and check for those in or around the `cleancss` Transform.

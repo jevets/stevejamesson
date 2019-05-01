@@ -1,0 +1,7 @@
+<nav class="site-nav">
+  <div class="container">
+    {% for item in siteNav %}
+      <a class="nav-item {{ 'nav-item-active' if item.activeWhen(page) }}" href="{{ item.uri }}">{{ item.label }}</a>
+    {% endfor %}
+  </div>
+</nav>

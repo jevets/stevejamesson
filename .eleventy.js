@@ -4,6 +4,7 @@ const pluginSyntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight')
 const pluginTOCNested = require('eleventy-plugin-nesting-toc')
 const markdownIt = require('markdown-it')
 const markdownItAnchor = require('markdown-it-anchor')
+const mdDefinitionLists = require('markdown-it-deflist')
 const CleanCSS = require('clean-css')
 const PurgeCSS = require('purgecss')
 const htmlmin = require('html-minifier')
@@ -31,12 +32,13 @@ module.exports = config => {
 
   // Add `id`s to markdown headings for the TOC plugin
   // https://www.npmjs.com/package/eleventy-plugin-nesting-toc
-  config.setLibrary('md',
-    markdownIt({
+  config.setLibrary('md', markdownIt({
       html: true,
       linkify: true,
       typographer: true,
-    }).use(markdownItAnchor, {})
+    })
+    .use(markdownItAnchor, {})
+    .use(mdDefinitionLists)
   )
 
   // Minify HTML
