@@ -6,6 +6,7 @@
   },
   "devDependencies": {
     "@11ty/eleventy": "^0.8.2",
+    "@11ty/eleventy-plugin-syntaxhighlight": "^2.0.3",
     "autoprefixer": "^9.5.1",
     "postcss": "^7.0.14",
     "postcss-import": "^12.0.1",

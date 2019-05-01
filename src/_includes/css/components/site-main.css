@@ -1,7 +1,6 @@
 .site-main {
   @apply leading-normal;
 
-  h1, h2, h3, h4, h5, h6,
   p, ul, ol, dl,
   blockquote, pre,
   details {
@@ -9,16 +8,27 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
+    @apply my-6;
     @apply leading-none;
   }
   h1 {
     @apply text-4xl font-black;
   }
   h2 {
-    @apply text-2xl font-black;
+    @apply text-2xl font-bold;
   }
   h3 {
-    @apply text-lg font-black;
-    @apply my-6;
+    @apply text-lg font-bold;
+  }
+
+  ul, ol {
+    @apply ml-4;
+    @apply leading-loose;
+  }
+  ul {
+    @apply list-disc;
+  }
+  ol {
+    @apply list-decimal;
   }
 }

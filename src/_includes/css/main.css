@@ -8,5 +8,6 @@
 @import "components/site-footer";
 @import "components/site-main";
 @import "components/post";
+@import "vendor/prism-atom-dark";
 
 @import "tailwindcss/utilities";

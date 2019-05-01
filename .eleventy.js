@@ -1,4 +1,5 @@
 const { DateTime } = require('luxon')
+const syntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight')
 
 module.exports = config => {
   config.dir = {
@@ -12,6 +13,14 @@ module.exports = config => {
   })
   config.addFilter('machineDate', dt => {
     return DateTime.fromJSDate(dt, {zone: 'utc'}).toISODate()
+  })
+
+  // Plugins
+  config.addPlugin(syntaxHighlight)
+
+  // Collections
+  config.addCollection('posts', collection => {
+    return collection.getFilteredByGlob('src/posts/**/*.md').reverse()
   })
 
   return config
