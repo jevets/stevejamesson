@@ -16,6 +16,11 @@ module.exports = () => {
       label: 'Now',
       uri: '/now/',
       activeWhen: currentPage => currentPage.url === '/now/',
+    },
+    {
+      label: 'About',
+      uri: '/about/',
+      activeWhen: currentPage => currentPage.url === '/about/',
     }
   ]
 

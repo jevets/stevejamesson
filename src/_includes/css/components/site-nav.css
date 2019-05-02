@@ -1,8 +1,11 @@
 .site-nav {
+  @apply text-sm;
+
   .nav-item {
     @apply mr-4;
   }
   .nav-item-active {
+    @apply text-gray-900;
     @apply no-underline;
   }
 }
