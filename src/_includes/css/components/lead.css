@@ -1,0 +1,4 @@
+.lead {
+  @apply text-xl font-light text-gray-800 my-4;
+  @apply mt-0;
+}

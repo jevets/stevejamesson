@@ -1,10 +1,6 @@
 .post-header {
   @apply mb-8;
 }
-.post-excerpt {
-  @apply text-xl font-light text-gray-800 my-4;
-  @apply border-b border-t py-6;
-}
 .post-pubdate {
   @apply text-xs text-gray-600;
 }

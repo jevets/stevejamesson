@@ -15,6 +15,13 @@ module.exports = config => {
     output: 'dist',
   }
 
+  config.markdownTemplateEngine = 'njk'
+
+  // Layout aliases
+  config.addLayoutAlias('default', 'layouts/base.njk')
+  config.addLayoutAlias('page', 'layouts/page.njk')
+  config.addLayoutAlias('post', 'layouts/post.njk')
+
   // Filters
   config.addFilter('readableDate', dt => {
     return DateTime.fromJSDate(dt, {zone: 'utc'}).toFormat('DDD')

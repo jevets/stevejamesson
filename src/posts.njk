@@ -1,18 +1,19 @@
 ---
 title: Posts
-layout: layouts/base
-tagged:
-  - eleventy
+layout: page
+lead: Grouped by tag
+pagination:
+  data: collections
+  size: 99999
+  alias: tags
+  filter:
+    - all
+    - posts
 ---
 
-<div class="container">
-  <h1>All Posts</h1>
-  <div class="post-excerpt">Grouped by tag</div>
-
-  {% for tag in tagged %}
-    <h2 id="{{ tag }}">#{{ tag }}</h2>
-    {% for post in collections[tag] | reverse %}
-      {% include "list-posts.njk" %}
-    {% endfor %}
+{% for tag in tags | sort %}
+  <h2 id="{{ tag }}">#{{ tag }}</h2>
+  {% for post in collections[tag] | reverse %}
+    {% include "list-posts.njk" %}
   {% endfor %}
-</div>
+{% endfor %}

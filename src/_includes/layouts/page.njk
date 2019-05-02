@@ -1,0 +1,30 @@
+{% extends "layouts/base.njk" %}
+
+{% block og %}
+<meta property="og:type" content="article">
+<meta property="og:title" content="{{ title }}">
+<meta property="article:author" content="{{ '/' | productionUrl }}">
+{% if lead %}
+  <meta property="og:description" content="{{ lead }}">
+{% endif %}
+{% if image %}
+  <meta property="og:image" content="{{ image | productionUrl }}">
+{% endif %}
+{% endblock %}
+
+{% block main %}
+<div class="container">
+  <article class="page">
+    <header class="page-header">
+      <h1 class="page-title">{{ title }}</h1>
+      {% if lead %}
+        <p class="lead">{{ lead }}</p>
+      {% endif %}
+    </header>
+
+    <div class="content page-content">
+      {{ content | safe }}
+    </div>
+  </article>
+</div>
+{% endblock %}
