@@ -2,6 +2,8 @@
 draft: true
 title: Working with Debug Messages in EleventyJS
 date: 2019-05-04
+tags:
+  - eleventy
 excerpt: |
   Get to know Eleventy's debug console
 ---
@@ -98,7 +100,7 @@ const api = require('./myAwesomeApi')
 
 module.exports = async () => {
   const posts = await api.fetchAndNormalizeAllPosts(),
-  debug('Fetched posts', posts)
+  debug('Fetched posts: %o', posts)
 
   return { posts }
 }
@@ -109,7 +111,7 @@ Then set an environment variable to instruct the debugger to log messages for yo
 ```bash
 DEBUG=App:MyAwesomeAPI npx eleventy --serve
 
-# or show all message from your App
+# or show all messages from your App
 DEBUG=App* npx eleventy --serve
 ```
 
@@ -119,11 +121,11 @@ Now you'll see a message in your console whenever posts are fetched:
 App:MyAwesomeAPI Fetched posts [{...}, {...}, {...}, ...]
 ```
 
-Of course you can get fancier:
+You can use [tokens to format output](https://www.npmjs.com/package/debug#formatters), like `printf`.
 
 ```js
 ...
-  debug(`Fetched a total of ${posts.length} posts`)
+debug(`Fetched a total of %d posts`, posts.length)
 ...
 ```
 
@@ -137,13 +139,7 @@ An example probably explains everything you need here:
 // package.json
 ...
   "scripts": {
-    "dev": "DEBUG=App*,Eleventy:TemplateContent,Eleventy:EleventyErrorHandler npm rum serve",
-    "serve": "npx eleventy --serve",
-    "dev-app-only": "DEBUG=App* npm run serve"
+    "dev": "DEBUG=App*,Eleventy:TemplateContent,Eleventy:EleventyErrorHandler npx eleventy --serve",
   },
 ...
 ```
-
-## Conclusion
-
-Hope this helped!

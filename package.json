@@ -1,7 +1,7 @@
 {
   "name": "steve",
   "scripts": {
-    "dev": "DEBUG=Eleventy* npx eleventy --serve",
+    "dev": "DEBUG=Eleventy*,App* npx eleventy --serve",
     "build": "npx eleventy"
   },
   "devDependencies": {

@@ -1,17 +1,19 @@
 ---
 title: Using TailwindCSS with EleventyJS
 date: 2019-05-01
+tags:
+  - eleventy
 excerpt: |
   Use TailwindCSS in Eleventy with built-in file watch, automatic browser reload, PostCSS plugins, and PurgeCSS and Minififcation.
 ---
 
 Here's the overall idea:
 
-Use an `.11ty.js` template file to do the work of processing TailwindCSS and PostCSS, then keep your CSS files in Eleventy's `_includes` directory to take advantage of auto-reload/rebuild. Let [Eleventy Transforms](https://www.11ty.io/docs/config/#transforms) handle PurgeCSS to ensure PurgeCSS compares against resulting compiled HTML. Then minify the CSS.
+Use an [`.11ty.js`](https://www.11ty.io/docs/languages/javascript/) template file to do the work of processing TailwindCSS and PostCSS, then keep your CSS files in Eleventy's `_includes` directory to take advantage of auto-reload/rebuild. Let [Eleventy Transforms](https://www.11ty.io/docs/config/#transforms) handle PurgeCSS to ensure comparison against compiled HTML. Then minify the CSS.
 
 ## Dependencies & General Setup
 
-Note I'm using a `src` folder for my Eleventy input root and a `dist` folder for the fintal output. Defaults are `--input=. --output=_site`. I set this up in the config file.
+Note I'm using a `src` folder for my Eleventy input root and a `dist` folder for the final output. Defaults are `--input=. --output=_site`. I set this up in the config file.
 
 ```js
 // .eleventy.js
@@ -49,7 +51,7 @@ yarn add -D tailwindcss autoprefixer postcss postcss-import precss clean-css pur
 
 ## Create the CSS files
 
-I keep these in my Eleventy's `_includes` folder, so that any changes to them will trigger a rebuild and reload during development (when running `eleventy --serve`).
+I keep these in my Eleventy's `_includes` folder. Any changes to them will trigger a rebuild and reload during development (when running `eleventy --serve`). No need for additional watchers.
 
 ```bash
 src/
@@ -87,19 +89,25 @@ And an example of one of the imported CSS files:
 ```css
 /* _includes/css/base/links.css */
 
-a, a:visited {
-  @apply text-red-700;
-  @apply underline;
-}
-a:hover, a:focus, a:active {
-  @apply text-red-600;
-  @apply no-underline;
+a {
+  &, &:visited {
+    @apply text-red-700;
+    @apply underline;
+  }
+  &:hover, &:focus, &:active {
+    @apply text-red-600;
+    @apply no-underline;
+  }
 }
 ```
 
 ## Setup a Master Stylesheet Template
 
-This file will become the output file that we'll reference from the base layout.
+This file will become the final CSS file that we'll reference from the base layout. Note the permalink setting in the `data()` method. This will tell Eleventy to write the stylesheet to `dist/styles.css`, which we'll reference in our base layout:
+
+```markup
+<link href="/styles.css" rel="stylesheet">
+```
 
 I'll use the [`.11ty.js` template engine](https://www.11ty.io/docs/languages/javascript/) so I can handle all the processing with plain old JavaScript.
 
@@ -138,16 +146,10 @@ module.exports = class {
 }
 ```
 
-**Note** the permalink setting in the `data()` method. This will tell Eleventy to write the stylesheet to `dist/styles.css`, which we'll reference in our base layout:
-
-```markup
-<link href="/styles.css" rel="stylesheet">
-```
-
 The template itself is pretty self-explanatory. But a few quick notes:
 
 - Order matters in your PostCSS plugins chain. Import first, then PreCSS, then Tailwind, and finally autoprefix the resulting CSS.
-- I'm sure you could use a `postcss.config.js` file instead, but I like having it all right here in the `.11ty.js` template file.
+- I'm sure you could use a `postcss.config.js` file instead, but I like having it all right here in the `.11ty.js` template file. And keeping it in the file means automatic rebuild/reload from Eleventy's built-in watcher and dev server.
 - We'll handle PurgeCSS and Minification tasks later in the build chain so that we can purge against Eleventy's final compiled HTML.
 
 ## Purge and Minify CSS with an Eleventy Transform
@@ -157,11 +159,11 @@ You could handle the purge and minification directly in `styles.11ty.js` via Pos
 Future proof
 : If I ever change from PostCSS/Tailwind to something else in the future, my CSS files will still be purged and minified when the site's built, regardless of my CSS pre-processing stack.
 
-Generated markup
+Generated markup isn't necessarily available
 : I'm using an [Eleventy plugin for code syntax highlighting](https://github.com/11ty/eleventy-plugin-syntaxhighlight), and it generates a bunch of markup during Eleventy's build step. This compiled HTML isn't necessarily available while Eleventy is processing `styles.11ty.js`.
 : I need PurgeCSS to see the resulting HTML output (`./dist/**/*.html`) after Eleventy has compiled its files — not the template source markup. If you were to instruct PurgeCSS to only look in the source templates (`src/**/*.njk`), PurgeCSS would remove the CSS classes that the syntax highlighting plugin generates.
 
-Using a Transform for purging (and then minification) is the perfect solution, since Transforms happen later on in Eleventy's build chain. *I assume this is true; it seems to be true so far.*
+Using a Transform for purging (and then minification) is the perfect solution, since Transforms happen later on in Eleventy's build chain.
 
 ```js
 // .eleventy.js
